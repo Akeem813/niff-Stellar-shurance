@@ -79,6 +79,12 @@ Copy `frontend/.env.example` → `frontend/.env.local`.
 <!-- handsoff-issue-1446 -->
 - #1446: Contract — Claim withdrawal and supplementary evidence
 
+<!-- handsoff-issue-1708 -->
+- #1708: Tracking — Oracle integration: price feed and fraud scoring cross-stack group (umbrella; `feature:oracle`)
+  - Contract: sign-then-verify oracle pipeline, vet specialization validation
+  - Backend: Prometheus treasury gauge from oracle data
+  - Frontend: network status indicator with oracle feed display
+
 <!-- handsoff-issue-1706 -->
 - #1706: Tracking — Claim lifecycle: full end-to-end cross-stack issue group
   - Label: `feature:claim-lifecycle` (apply to this umbrella and all linked issues)
