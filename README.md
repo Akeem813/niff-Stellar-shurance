@@ -85,6 +85,9 @@ for status, owners, and acceptance criteria. **Priority: Critical — Layer: All
 <!-- handsoff-issue-1446 -->
 - #1446: Contract — Claim withdrawal and supplementary evidence
 
+<!-- handsoff-issue-1678 -->
+- #1678: Frontend: Dashboard card order — implement drag-to-reorder dashboard cards
+
 <!-- handsoff-issue-1672 -->
 - #1672: Frontend: Draft persistence — persist claim filing form across page refreshes
 
