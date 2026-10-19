@@ -1,53 +1,28 @@
-# Contributing to niff-Stellar-shurance
+# Contributing
 
-Welcome. This guide takes you from a fresh clone to a passing CI run and an open PR. Follow it top-to-bottom on your first setup; after that, jump to whichever section you need.
+## Git hooks (secret scanning)
 
----
+This repository ships a Git pre-commit hook that runs [gitleaks](https://github.com/gitleaks/gitleaks) against staged changes to prevent committing secrets. The rules live in `.gitleaks.toml`.
 
-## Table of contents
+Install the hooks once after cloning:
 
-1. [Prerequisites](#1-prerequisites)
-2. [Clone and bootstrap](#2-clone-and-bootstrap)
-3. [Contract development (Rust / Soroban)](#3-contract-development-rust--soroban)
-4. [Backend development (NestJS)](#4-backend-development-nestjs)
-5. [Frontend development (Next.js)](#5-frontend-development-nextjs)
-6. [CI quality gates](#6-ci-quality-gates)
-7. [PR review process](#7-pr-review-process)
-8. [Good first issues](#8-good-first-issues)
-9. [Security rules](#9-security-rules)
-10. [On-call operations](#10-on-call-operations)
-11. [Dependency update policy](#11-dependency-update-policy)
-12. [Mainnet launch readiness checklist](#12-mainnet-launch-readiness-checklist)
-
----
-
-## 1. Prerequisites
-
-Install these before anything else.
-
-| Tool | Version | Install |
-|---|---|---|
-| Node.js | `>=22` (see `.nvmrc`) | [nvm](https://github.com/nvm-labs/nvm) or [fnm](https://github.com/Schniz/fnm) |
-| npm | `>=10` | bundled with Node |
-| Rust | stable | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` |
-| wasm32 target | — | `rustup target add wasm32-unknown-unknown` |
-| Soroban CLI | latest | `cargo install --locked stellar-cli --features opt` |
-| Docker | — | [Docker Desktop](https://www.docker.com/products/docker-desktop/) |
-| PostgreSQL | 16 | via Docker (see below) or local install |
-| Redis | 7 | via Docker (see below) or local install |
-
-> **Node version:** run `nvm use` in the repo root to switch to the pinned version automatically.
-
----
-
-## 2. Clone and bootstrap
-
-```bash
-git clone https://github.com/InsurNiffy/niff-Stellar-shurance.git
-cd niff-Stellar-shurance
+```sh
+make install-hooks
 ```
 
-Start Postgres and Redis with Docker:
+This sets `core.hooksPath` to `.githooks` so the `pre-commit` hook runs automatically on every commit. Make sure `gitleaks` is installed and available on your `PATH` (e.g. `brew install gitleaks` or download a release binary).
+
+If a commit is blocked because a secret was detected, remove the secret from the staged changes (or rotate it if it was already pushed) and commit again. Do not bypass the hook with `--no-verify`.
+
+```bash
+cd backend
+docker compose up -d
+```
+
+Val
+```
+
+This sets `core.hooksPath` to `.githooks` so the `pre-commit` hook runs automatically on every commit. Make sure `gitleaks` is installed and available on your `PATH` (e.g. `brew install gitleaks` or download a release binary).
 
 ```bash
 cd backend
@@ -314,6 +289,7 @@ Issues labelled `good first issue` are scoped for new contributors. Comment on t
 - Never commit secrets, tokens, or credentials. Use `.env` files (git-ignored) and the documented env reference.
 - Report vulnerabilities privately per `SECURITY.md` — do not open a public issue.
 - Run `gitleaks` locally before committing (see the launch readiness checklist below).
+- If a commit is blocked because a secret was detected, remove the secret from the staged changes (or rotate it if it was already pushed) and commit again. Do not bypass the hook with `--no-verify`.
 
 ---
 

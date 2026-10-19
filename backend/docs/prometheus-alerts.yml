@@ -15,6 +15,25 @@ groups:
             More than 1 5xx error/s over the last 10 minutes. Check requestId
             correlated logs and recent deploys for root cause.
 
+      # ── Post-deploy error-rate spike alert (blue-green auto-rollback) ─────
+      # Fires when the 5xx error rate spikes shortly after a traffic switch.
+      # The deploy pipeline watches this alert (and the smoke test result) to
+      # trigger an automatic rollback to the previous (blue) environment.
+      - alert: PostDeployErrorRateSpike
+        expr: |
+          sum(rate(http_5xx_errors_total{app="niffyinsure-api"}[5m])) > 0.5
+        for: 2m
+        labels:
+          severity: critical
+          team: backend
+          rollback: "true"
+        annotations:
+          summary: "Post-deploy 5xx error rate spike"
+          description: >
+            The 5xx error rate spiked above 0.5 errors/s within the post-deploy
+            observation window. The blue-green deploy pipeline should roll back
+            traffic to the previous environment.
+
       # ── RPC error alert ───────────────────────────────────────────────────
       - alert: HighRpcErrorRate
         expr: |
